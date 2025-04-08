@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <memory.h>
 #include "sha256.h"
+#include <string>
 
 /****************************** MACROS ******************************/
 #define ROTLEFT(a,b) (((a) << (b)) | ((a) >> (32-(b))))
@@ -155,4 +156,20 @@ void sha256_final(SHA256_CTX *ctx, BYTE hash[])
 		hash[i + 24] = (ctx->state[6] >> (24 - i * 8)) & 0x000000ff;
 		hash[i + 28] = (ctx->state[7] >> (24 - i * 8)) & 0x000000ff;
 	}
+}
+
+std::string sha256(const std::string &data) {
+    BYTE hash[32]; // 256 bits = 32 bytes
+    SHA256_CTX ctx;
+
+    sha256_init(&ctx);
+    sha256_update(&ctx, (const BYTE*)data.c_str(), data.size());
+    sha256_final(&ctx, hash);
+
+    // Convert bytes to hex string
+    char output[65]; // 64 chars + null terminator
+    for (int i = 0; i < 32; i++)
+        sprintf(output + i * 2, "%02x", hash[i]);
+
+    return std::string(output);
 }
