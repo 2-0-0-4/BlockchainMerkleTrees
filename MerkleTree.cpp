@@ -5,7 +5,7 @@ MerkleTree::MerkleTree(){}
 
 MerkleTree::MerkleTree(/* args */)
 {
-    return std::string();
+    // return std::string();
 }
 
 MerkleTree::~MerkleTree()
@@ -48,4 +48,21 @@ Node* MerkleTree::create_tree(std::vector<std::string> dataBlocks){
 
 
 }
- 
+
+Node* MerkleTree::Create_Tree(std::vector<std::string> dataBlocks){
+
+    root_pointer = create_tree(dataBlocks);
+    root_hash = root_pointer->hashval;
+
+    return root_pointer;
+}
+
+std::string MerkleTree::getRootHash(){
+
+    return root_hash;
+}
+
+Node* MerkleTree::getRootPointer(){
+
+    return root_pointer;
+}
