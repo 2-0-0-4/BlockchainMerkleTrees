@@ -1,9 +1,11 @@
 #include "MerkleTree.hpp"
 #include "sha256.h"
 
+MerkleTree::MerkleTree(){}
 
 MerkleTree::MerkleTree(/* args */)
 {
+    return std::string();
 }
 
 MerkleTree::~MerkleTree()
