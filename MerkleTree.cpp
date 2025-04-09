@@ -16,7 +16,10 @@ Node* MerkleTree::create_tree(std::vector<std::string> dataBlocks){
 
     //list of leafnodes with the hashvalues
      for(const std::string &data : dataBlocks){
-        current_level.push_back(new Node(sha256(data)));
+        Node* temp = new Node(sha256(data));
+        current_level.push_back(temp);
+        leaf_nodes.push_back(temp);
+
     }
 
     //while the vector does not become 1(only root left)

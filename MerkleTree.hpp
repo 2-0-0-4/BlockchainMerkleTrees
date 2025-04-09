@@ -16,6 +16,7 @@ class MerkleTree
 {
 private:
     std::vector<Node*> current_level;
+    std::vector<Node*> leaf_nodes;
     Node* root_pointer;
     std::string root_hash;
     
