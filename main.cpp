@@ -5,17 +5,21 @@
 #include "Block.hpp"
 #include "Blockchain.hpp"
 
-// final
 // int main() {
-
+//     // creating block.
 //     Block b("dataset/block15.csv");
 //     std::cout << "Root Hash: " << b.get_Root_Hash() << std::endl;
+
+    
+//     std::cout<< "datablocks content: ";
+//         b.printfile();
+
 //     return 0;
 // }
 
-// #include <iostream>
-// #include "Blockchain.hpp"
 
+
+// Block chain
 int main() {
     Blockchain blockchain; // Create a new blockchain
     
