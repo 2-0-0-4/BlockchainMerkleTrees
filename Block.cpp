@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "Block.hpp"
+#include "sha256.h"
 
 int Block:: readfile(const std::string& filename) {
     std::ifstream file(filename); 
@@ -30,16 +31,23 @@ void Block::printfile() {
     }
 }
 
-Block::Block(const std::string& filename) {
+Block::Block(const std::string& filename, const std::string& prevHash) {
+    prev_hash = prevHash; 
     readfile(filename);
-    merkle_tree = MerkleTree(datablocks); // pass data to MerkleTree
-    merkle_tree.Create_Tree(); 
+    merkle_tree = MerkleTree(datablocks); 
+    merkle_tree.Create_Tree();
 }
 
 
-std::string Block:: get_Root_Hash(){
-   
-    std::string x = merkle_tree.getRootHash();
- 
-    return x;
+std::string Block::get_Root_Hash() {
+    return merkle_tree.getRootHash();
+}
+
+std::string Block::getBlockHash() {
+    // I am not sure if this is the best way to creat block hash.
+    return sha256(get_Root_Hash() + prev_hash);
+}
+
+std::string Block::getPrevHash() {
+    return prev_hash;
 }
