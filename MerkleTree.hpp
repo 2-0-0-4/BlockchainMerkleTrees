@@ -20,9 +20,18 @@ private:
     std::vector<Node *> leaf_nodes;
     Node *root_pointer;
     std::string root_hash;
+<<<<<<< HEAD
     Node* create_tree(std::vector<Node *> leaf_nodes); // recursive definition
     std::vector<std::string> get_proof(int i);
 
+=======
+    // Node* MerkleTree::create_tree(std::vector<Node*> leaf_nodes);
+    Node* create_tree(std::vector<Node*> leaf_nodes);
+ //recursive definition
+    // Node* create_tree(std::vector<std::string> dataBlocks); //datablocks obtained from csv files , creates tree and returns root
+    // MerkleTree(); //ctor
+    // MerkleTree(std::vector<std::string> dataBlocks); //parametrized ctor
+>>>>>>> f92fd37e5410728cd3222f33f2019750648e62c0
 public:
     MerkleTree();                                          // ctor
     MerkleTree(std::vector<std::string> dataBlocks);       // parametrized ctor
