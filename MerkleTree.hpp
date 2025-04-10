@@ -19,7 +19,9 @@ private:
     std::vector<Node*> leaf_nodes;
     Node* root_pointer;
     std::string root_hash;
-    Node* MerkleTree::create_tree(std::vector<Node*> leaf_nodes); //recursive definition
+    // Node* MerkleTree::create_tree(std::vector<Node*> leaf_nodes);
+    Node* create_tree(std::vector<Node*> leaf_nodes);
+ //recursive definition
     // Node* create_tree(std::vector<std::string> dataBlocks); //datablocks obtained from csv files , creates tree and returns root
     // MerkleTree(); //ctor
     // MerkleTree(std::vector<std::string> dataBlocks); //parametrized ctor
