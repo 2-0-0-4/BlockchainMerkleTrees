@@ -109,7 +109,9 @@ Node *MerkleTree::getRootPointer()
 
 void MerkleTree::Remove_Node(int i)
 {
-    
+    delete leaf_nodes[i]; //delete the pointer at i
+    leaf_nodes.erase(leaf_nodes.begin() + i); //delete ith pos of vector
+    Create_Tree(); //update hashes
 }
 
 // Node* MerkleTree::create_tree(std::vector<std::string> dataBlocks){

@@ -20,9 +20,8 @@ private:
     std::vector<Node *> leaf_nodes;
     Node *root_pointer;
     std::string root_hash;
-    Node *MerkleTree::create_tree(std::vector<Node *> leaf_nodes); // recursive definition
+    Node* create_tree(std::vector<Node *> leaf_nodes); // recursive definition
     std::vector<std::string> get_proof(int i);
-    void delete_node();
 
 public:
     MerkleTree();                                          // ctor
