@@ -1,14 +1,12 @@
 // #include <iostream>
 // #include "sha256.h"
-// #include <string>
 
-// std::string sha256(const std::string &data)
-// {
+// std::string sha256(const std::string &data) {
 //     BYTE hash[32]; // 256 bits = 32 bytes
 //     SHA256_CTX ctx;
 
 //     sha256_init(&ctx);
-//     sha256_update(&ctx, (const BYTE *)data.c_str(), data.size());
+//     sha256_update(&ctx, (const BYTE*)data.c_str(), data.size());
 //     sha256_final(&ctx, hash);
 
 //     // Convert bytes to hex string
@@ -19,8 +17,7 @@
 //     return std::string(output);
 // }
 
-// int main()
-// {
+// int main() {
 //     std::string input = "Alice sends 10 to Bob";
 //     std::string hashed = sha256(input);
 //     std::cout << "SHA-256: " << hashed << std::endl;
