@@ -37,12 +37,16 @@ Node *MerkleTree::create_tree(std::vector<Node *> current_level)
             // make parent
             current_level[i]->parent = next_level.back();
             current_level[i + 1]->parent = next_level.back();
+            next_level.back()->left = current_level[i];
+            next_level.back()->right = current_level[i + 1];
         }
         else
         {
             next_level.push_back(new Node(sha256(current_level[i]->hashval + current_level[i]->hashval))); // if i+1 not available, combine i+i
             // make parent
             current_level[i]->parent = next_level.back();
+            next_level.back()->left = current_level[i];
+            next_level.back()->right = current_level[i];
         }
     }
 
@@ -69,6 +73,15 @@ Node *MerkleTree::getRootPointer()
 {
 
     return root_pointer;
+}
+
+std::vector<std::string> MerkleTree::getLeafHashes()
+{
+    std::vector<std::string> hashes;
+    for(Node* i : leaf_nodes){
+        hashes.push_back(i->hashval);
+    }
+    return hashes;
 }
 
 bool MerkleTree::Verify_Node(int txn_num, std::string hash_value)
@@ -100,11 +113,11 @@ std::vector<std::string> MerkleTree::get_proof(int i)
         Node *parent_node = curr_node->parent;
         if (parent_node->left == curr_node)
         {
-            path.push_back(parent_node->right->hashval);
+            path.push_back(parent_node->right->hashval); //sibling is right
         }
         else
         {
-            path.push_back(parent_node->left->hashval);
+            path.push_back(parent_node->left->hashval); //sibling is left
         }
         curr_node = parent_node;
     }
