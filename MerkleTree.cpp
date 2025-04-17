@@ -13,7 +13,8 @@ MerkleTree::MerkleTree(std::vector<std::string> dataBlocks)
     this->root_pointer = nullptr;
 }
 
-MerkleTree::~MerkleTree(){
+MerkleTree::~MerkleTree()
+{
     // delete root_pointer;
     // delete[] leaf_nodes;
 }
@@ -34,6 +35,7 @@ Node *MerkleTree::create_tree(std::vector<Node *> current_level)
         if (current_level.size() > i + 1)
         {
             next_level.push_back(new Node(sha256(current_level[i]->hashval + current_level[i + 1]->hashval))); // hash the combined hashvalues of i and i+1
+            // std::cout << i << " " << i + 1 << " " << sha256(current_level[i]->hashval + current_level[i + 1]->hashval) << std::endl;
             // make parent
             current_level[i]->parent = next_level.back();
             current_level[i + 1]->parent = next_level.back();
@@ -44,6 +46,7 @@ Node *MerkleTree::create_tree(std::vector<Node *> current_level)
         {
             next_level.push_back(new Node(sha256(current_level[i]->hashval + current_level[i]->hashval))); // if i+1 not available, combine i+i
             // make parent
+            // std::cout << i << " " << sha256(current_level[i]->hashval + current_level[i]->hashval) << std::endl;
             current_level[i]->parent = next_level.back();
             next_level.back()->left = current_level[i];
             next_level.back()->right = current_level[i];
@@ -78,7 +81,8 @@ Node *MerkleTree::getRootPointer()
 std::vector<std::string> MerkleTree::getLeafHashes()
 {
     std::vector<std::string> hashes;
-    for(Node* i : leaf_nodes){
+    for (Node *i : leaf_nodes)
+    {
         hashes.push_back(i->hashval);
     }
     return hashes;
@@ -86,39 +90,43 @@ std::vector<std::string> MerkleTree::getLeafHashes()
 
 bool MerkleTree::Verify_Node(int txn_num, std::string hash_value)
 {
-    std::vector<std::string> path = get_proof(txn_num);
-    std::string curr_hash = sha256(hash_value + path[0]);
-    for (int i = 1; i < path.size(); i++)
+    // std::cout << "root check: " << (root_hash==root_pointer->hashval)<<std::endl;
+    std::vector<std::pair<std::string, int>> path = get_proof(txn_num);
+    std::string curr_hash = hash_value;
+    for (int i = 0; i < path.size(); i++)
     {
-        curr_hash = sha256(curr_hash + path[i]);
+        if (path[i].second == 1) // right sibling so concantenate to the right
+            curr_hash = sha256(curr_hash + path[i].first);
+        if (path[i].second == 0) // left sibling so concantenate to the left
+            curr_hash = sha256(path[i].first + curr_hash);
     }
-    return (curr_hash == root_hash) ? true : false;
+    return (curr_hash == root_pointer->hashval) ? true : false;
 }
-
 
 void MerkleTree::Remove_Node(int i)
 {
-    delete leaf_nodes[i]; //delete the pointer at i
-    leaf_nodes.erase(leaf_nodes.begin() + i); //delete ith pos of vector
-    Create_Tree(); //update hashes
+    delete leaf_nodes[i];                     // delete the pointer at i
+    leaf_nodes.erase(leaf_nodes.begin() + i); // delete ith pos of vector
+    Create_Tree();                            // update hashes
 }
 
-
-std::vector<std::string> MerkleTree::get_proof(int i)
+std::vector<std::pair<std::string, int>> MerkleTree::get_proof(int i)
 {
+    // left = 0, right = 1
     Node *curr_node = leaf_nodes[i];
-    std::vector<std::string> path;
+    std::vector<std::pair<std::string, int>> path;
     while (curr_node != root_pointer)
     {
         Node *parent_node = curr_node->parent;
         if (parent_node->left == curr_node)
         {
-            path.push_back(parent_node->right->hashval); //sibling is right
+            path.push_back({(parent_node->right->hashval), 1}); // sibling is right
         }
-        else
+        else if (parent_node->right == curr_node)
         {
-            path.push_back(parent_node->left->hashval); //sibling is left
+            path.push_back({(parent_node->left->hashval), 0}); // sibling is left
         }
+
         curr_node = parent_node;
     }
     return path;
