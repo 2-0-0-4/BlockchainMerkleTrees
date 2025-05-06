@@ -58,52 +58,33 @@
 // }
 
 
-// int main() {
-
-//     Blockchain blockchain; // Create a new blockchain
-    
-    
-//     for (int i = 1; i <= 15; ++i) {
-//         std::string filename = "dataset/block" + std::to_string(i) + ".csv";
-//         blockchain.addBlock(filename);
-//     }
-    
-//     // Print out the entire blockchain
-//     blockchain.printChain();
-//     // // Verify blockchain integrity
-//     std::cout << "Verifying Blockchain..." << std::endl;
-//     if (blockchain.verifyChain()) {
-//         std::cout << "Blockchain is valid" << std::endl;
-//     } else {
-//         std::cout << "Blockchain is invalid" << std::endl;
-//     }
-   
-//     return 0;
-// }
 
 int main() {
     // PHASE 1: Save Original Blockchain 
-    // Blockchain blockchain;
-    // for (int i = 1; i <= 15; ++i) {
-    //     std::string filename = "dataset/block" + std::to_string(i) + ".csv";
-    //     blockchain.addBlock(filename);
-    // }
-    // blockchain.saveChain("blockchain_meta.txt");
-    // std::cout << "Blockchain saved. \n";
-
-    //PHASE 2: Verify After Tampering 
     Blockchain blockchain;
     for (int i = 1; i <= 15; ++i) {
         std::string filename = "dataset/block" + std::to_string(i) + ".csv";
         blockchain.addBlock(filename);
     }
 
-    std::cout << "\nVerifying Blockchain\n";
-    if (blockchain.verifyFromFile("blockchain_meta.txt")) {
-        std::cout << "Blockchain is VALID ";
-    } else {
-        std::cout << "Blockchain is INVALID ";
-    }
+       // Print out the entire blockchain
+        blockchain.printChain();
+    blockchain.saveChain("blockchain_meta.txt");
+    std::cout << "Blockchain saved. \n";
+
+    //PHASE 2: Verify After Tampering 
+    // Blockchain blockchain;
+    // for (int i = 1; i <= 15; ++i) {
+    //     std::string filename = "dataset/block" + std::to_string(i) + ".csv";
+    //     blockchain.addBlock(filename);
+    // }
+
+    // std::cout << "\nVerifying Blockchain\n";
+    // if (blockchain.verifyFromFile("blockchain_meta.txt")) {
+    //     std::cout << "Blockchain is VALID ";
+    // } else {
+    //     std::cout << "Blockchain is INVALID ";
+    // }
 
     return 0;
 }

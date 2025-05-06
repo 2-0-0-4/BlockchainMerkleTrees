@@ -50,7 +50,7 @@ void Blockchain::saveChain( std::string filename)  {
 bool Blockchain::verifyFromFile( std::string filename) {
     std::ifstream in(filename);
     if (!in.is_open()) {
-        std::cerr << "Error reading blockchain metadata!" << std::endl;
+        std::cerr << "Error reading blockchain metadata" << std::endl;
         return false;
     }
 
@@ -63,7 +63,7 @@ bool Blockchain::verifyFromFile( std::string filename) {
         std::getline(in, line); // ===
 
         if (index >= chain.size()) {
-            std::cerr << "This data has more blocks than actual blockchain!" << std::endl;
+            std::cerr << "This data has more blocks than actual blockchain" << std::endl;
             return false;
         }
 
