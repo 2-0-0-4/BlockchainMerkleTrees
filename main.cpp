@@ -83,27 +83,27 @@
 
 int main() {
     // PHASE 1: Save Original Blockchain 
-    // Blockchain blockchain;
-    // for (int i = 1; i <= 15; ++i) {
-    //     std::string filename = "dataset/block" + std::to_string(i) + ".csv";
-    //     blockchain.addBlock(filename);
-    // }
-    // blockchain.saveChain("blockchain_meta.txt");
-    // std::cout << "Blockchain saved. \n";
-
-    //PHASE 2: Verify After Tampering 
     Blockchain blockchain;
     for (int i = 1; i <= 15; ++i) {
         std::string filename = "dataset/block" + std::to_string(i) + ".csv";
         blockchain.addBlock(filename);
     }
+    blockchain.saveChain("blockchain_meta.txt");
+    std::cout << "Blockchain saved. \n";
 
-    std::cout << "\nVerifying Blockchain\n";
-    if (blockchain.verifyFromFile("blockchain_meta.txt")) {
-        std::cout << "Blockchain is VALID ";
-    } else {
-        std::cout << "Blockchain is INVALID ";
-    }
+    //PHASE 2: Verify After Tampering 
+    // Blockchain blockchain;
+    // for (int i = 1; i <= 15; ++i) {
+    //     std::string filename = "dataset/block" + std::to_string(i) + ".csv";
+    //     blockchain.addBlock(filename);
+    // }
+
+    // std::cout << "\nVerifying Blockchain\n";
+    // if (blockchain.verifyFromFile("blockchain_meta.txt")) {
+    //     std::cout << "Blockchain is VALID ";
+    // } else {
+    //     std::cout << "Blockchain is INVALID ";
+    // }
 
     return 0;
 }

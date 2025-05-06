@@ -9,7 +9,7 @@
 class Block {
     private:
         std::vector<std::string> datablocks;
-        MerkleTree merkle_tree; 
+        MerkleTree* merkle_tree; 
         std::string prev_hash;  // Store previous block's hash
     public:
         Block(const std::string& filename, const std::string& prevHash = ""); 
@@ -19,7 +19,7 @@ class Block {
         std::string getBlockHash();  // Get the hash of the current block
         std::string getPrevHash();   // Get the previous block's hash
         bool verifyTransaction(int index, const std::string& hash);
-
+        ~Block();
 
 };
 
