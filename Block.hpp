@@ -18,6 +18,7 @@ class Block {
         std::string get_Root_Hash();
         std::string getBlockHash();  // Get the hash of the current block
         std::string getPrevHash();   // Get the previous block's hash
+        bool verifyTransaction(int index, const std::string& hash);
 
 
 };

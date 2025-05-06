@@ -19,6 +19,27 @@ MerkleTree::~MerkleTree()
     // delete[] leaf_nodes;
 }
 
+void MerkleTree::delete_node(Node *node) {
+    if (node == nullptr) { //base case
+        return;
+    }
+    //delete left and right children
+    delete_node(node->left);
+    delete_node(node->right);
+
+    //setting parent pointer to null to avoid memory leak
+    if (node->parent != nullptr) {
+        node->parent = nullptr;
+    }
+    // Delete the current node
+    delete node;
+}
+
+// MerkleTree::~MerkleTree() {
+//     //deletion from root:
+//     delete_node(root_pointer); 
+//     leaf_nodes.clear();
+// }
 Node *MerkleTree::create_tree(std::vector<Node *> current_level)
 {
 

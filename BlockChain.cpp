@@ -27,3 +27,56 @@ void Blockchain::printChain() {
         std::cout << std::endl;
     }
 }
+
+
+
+void Blockchain::saveChain( std::string filename)  {
+    std::ofstream out(filename);
+    if (!out.is_open()) {
+        std::cerr << "Error saving blockchain!" << std::endl;
+        return;
+    }
+
+    for ( Block& block : chain) {
+        out << block.getPrevHash() << "\n";
+        out << block.get_Root_Hash() << "\n";
+        out << block.getBlockHash() << "\n";
+        out << "===\n";
+    }
+
+    out.close();
+}
+
+bool Blockchain::verifyFromFile( std::string filename) {
+    std::ifstream in(filename);
+    if (!in.is_open()) {
+        std::cerr << "Error reading blockchain metadata!" << std::endl;
+        return false;
+    }
+
+    std::string storedPrevHash, storedMerkle, storedBlockHash, line;
+    int index = 0;
+
+    while (std::getline(in, storedPrevHash)) {
+        std::getline(in, storedMerkle);
+        std::getline(in, storedBlockHash);
+        std::getline(in, line); // ===
+
+        if (index >= chain.size()) {
+            std::cerr << "This data has more blocks than actual blockchain!" << std::endl;
+            return false;
+        }
+
+        Block& current = chain[index];
+        if (current.getPrevHash() != storedPrevHash ||
+            current.get_Root_Hash() != storedMerkle ||
+            current.getBlockHash() != storedBlockHash) {
+            std::cerr << "Block " << index  << " has been tampered!" << std::endl;
+            return false;
+        }
+
+        ++index;
+    }
+
+    return true;
+}

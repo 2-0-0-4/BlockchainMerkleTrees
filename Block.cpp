@@ -51,3 +51,7 @@ std::string Block::getBlockHash() {
 std::string Block::getPrevHash() {
     return prev_hash;
 }
+
+bool Block::verifyTransaction(int index, const std::string& hash) {
+    return merkle_tree.Verify_Node(index, hash);
+}
