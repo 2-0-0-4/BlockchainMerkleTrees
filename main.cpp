@@ -66,9 +66,6 @@ int main() {
         std::string filename = "dataset/block" + std::to_string(i) + ".csv";
         blockchain.addBlock(filename);
     }
-
-       // Print out the entire blockchain
-        blockchain.printChain();
     blockchain.saveChain("blockchain_meta.txt");
     std::cout << "Blockchain saved. \n";
 

@@ -48,6 +48,7 @@ void Blockchain::saveChain( std::string filename)  {
 }
 
 bool Blockchain::verifyFromFile( std::string filename) {
+    bool valid = true;
     std::ifstream in(filename);
     if (!in.is_open()) {
         std::cerr << "Error reading blockchain metadata" << std::endl;
@@ -68,15 +69,24 @@ bool Blockchain::verifyFromFile( std::string filename) {
         }
 
         Block& current = chain[index];
+        // if (current.getPrevHash() != storedPrevHash ||
+        //     current.get_Root_Hash() != storedMerkle ||
+        //     current.getBlockHash() != storedBlockHash) {
+        //     std::cerr << "Block " << index  << " has been tampered!" << std::endl;
+        //     // return false;
+        // }
         if (current.getPrevHash() != storedPrevHash ||
             current.get_Root_Hash() != storedMerkle ||
             current.getBlockHash() != storedBlockHash) {
-            std::cerr << "Block " << index  << " has been tampered!" << std::endl;
-            return false;
+            if (current.get_Root_Hash() != storedMerkle && current.getBlockHash() != storedBlockHash)
+                std::cerr << "Block " << index  << " has been tampered!" << std::endl;
+            valid = false;
         }
 
         ++index;
     }
 
-    return true;
+    return valid;
 }
+
+Blockchain::~Blockchain(){}

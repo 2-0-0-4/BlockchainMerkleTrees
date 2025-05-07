@@ -14,6 +14,7 @@ public:
     void printChain(); // print the entire blockchain
     void saveChain( std::string filename) ;
     bool verifyFromFile(std::string filename);
+    ~Blockchain();
 
 };
 

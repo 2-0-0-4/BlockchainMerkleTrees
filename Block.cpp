@@ -34,13 +34,13 @@ void Block::printfile() {
 Block::Block(const std::string& filename, const std::string& prevHash) {
     prev_hash = prevHash; 
     readfile(filename);
-    merkle_tree = MerkleTree(datablocks); 
-    merkle_tree.Create_Tree();
+    merkle_tree = new MerkleTree(datablocks); 
+    merkle_tree->Create_Tree();
 }
 
 
 std::string Block::get_Root_Hash() {
-    return merkle_tree.getRootHash();
+    return merkle_tree->getRootHash();
 }
 
 std::string Block::getBlockHash() {
@@ -53,5 +53,7 @@ std::string Block::getPrevHash() {
 }
 
 bool Block::verifyTransaction(int index, const std::string& hash) {
-    return merkle_tree.Verify_Node(index, hash);
+    return merkle_tree->Verify_Node(index, hash);
 }
+
+Block::~Block(){}

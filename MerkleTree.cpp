@@ -13,33 +13,28 @@ MerkleTree::MerkleTree(std::vector<std::string> dataBlocks)
     this->root_pointer = nullptr;
 }
 
-MerkleTree::~MerkleTree()
-{
-    // delete root_pointer;
-    // delete[] leaf_nodes;
-}
-
 void MerkleTree::delete_node(Node *node) {
-    if (node == nullptr) { //base case
+    if (node == nullptr) {
         return;
     }
-    //delete left and right children
-    delete_node(node->left);
-    delete_node(node->right);
 
-    //setting parent pointer to null to avoid memory leak
-    if (node->parent != nullptr) {
-        node->parent = nullptr;
+    //preventing double deletion when there are odd num of leaves
+    if (node->left && node->left != node->right) {
+        delete_node(node->left);
+        delete_node(node->right);
+    } else if (node->left) {
+        delete_node(node->left);  // only once if same
     }
-    // Delete the current node
+
     delete node;
 }
 
-// MerkleTree::~MerkleTree() {
-//     //deletion from root:
-//     delete_node(root_pointer); 
-//     leaf_nodes.clear();
-// }
+MerkleTree::~MerkleTree() {
+    //deletion from root:
+    delete_node(root_pointer); 
+    leaf_nodes.clear();
+}
+
 Node *MerkleTree::create_tree(std::vector<Node *> current_level)
 {
 
@@ -152,55 +147,3 @@ std::vector<std::pair<std::string, int>> MerkleTree::get_proof(int i)
     }
     return path;
 }
-
-// MerkleTree::~MerkleTree()
-// {
-//     // for (Node *node : leaf_nodes)
-//     // {
-//     //     delete node;
-//     // }
-//     for(int i = 0; i<leaf_nodes.size();i++){
-//         delete leaf_nodes[i];
-//     }
-//     delete root_pointer;
-// }
-
-// Node* MerkleTree::create_tree(std::vector<std::string> dataBlocks){
-
-//     //list of leafnodes with the hashvalues
-//      for(const std::string &data : dataBlocks){
-//         Node* temp = new Node(sha256(data));
-//         current_level.push_back(temp);
-//         leaf_nodes.push_back(temp);
-
-//     }
-
-//     //while the vector does not become 1(only root left)
-//     while(current_level.size()>1){
-
-//         std::vector<Node*> next_level;
-
-//         for(int i= 0; i < current_level.size(); i= i+2){
-
-//             if(current_level.size()>i+1){
-//                 next_level.push_back(new Node(sha256(current_level[i]->hashval + current_level[i+1]->hashval))); //hash the combined hashvalues of i and i+1
-//                 //make parent
-//                 current_level[i]->parent = next_level.back();
-//                 current_level[i+1]->parent = next_level.back();
-
-//             }else{
-//                 next_level.push_back(new Node(sha256(current_level[i]->hashval + current_level[i]->hashval)));  //if i+1 not available, combine i+i
-//                 //make parent
-//                 current_level[i]->parent = next_level.back();
-//             }
-//         }
-
-//         current_level = next_level; //move to the upper level
-
-//     }
-
-//     return current_level.front(); //return pointer to the root of the merkle tree
-
-// }
-
-// recursive fucntion
